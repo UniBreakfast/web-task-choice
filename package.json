@@ -1,0 +1,21 @@
+{
+  "name": "web-task-choice",
+  "version": "1.0.0",
+  "description": "A simple app to help you choose a generated task to do when you have too many options or no idea at all what to do to learn web development in practice.",
+  "main": "_lister.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "list": "node _lister.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UniBreakfast/web-task-choice.git"
+  },
+  "keywords": ["tasks", "educational", "random generator"],
+  "author": "Mykhailo Ninin aka UniBreakfast",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UniBreakfast/web-task-choice/issues"
+  },
+  "homepage": "https://github.com/UniBreakfast/web-task-choice#readme"
+}

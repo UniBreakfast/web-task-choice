@@ -1,7 +1,8 @@
 export { prepUI }
 
 import { makeTabs } from './tabs.js'
+import { t } from './lang.js'
 
-function prepUI() {
-    makeTabs('')
+function prepUI(lang) {
+    const tabManager = makeTabs(t('Categories'), t('Random choice'))
 }

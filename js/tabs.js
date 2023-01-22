@@ -1,5 +1,5 @@
 export { makeTabs }
 
-function makeTabs() {
+function makeTabs(tabNames) {
   
 }

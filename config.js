@@ -1,3 +1,4 @@
 export default {
-  localStoragePrefix: 'wtc_', // web-task-choice abbreviation
+  localStoragePrefix: 'webTaskChoice_',
+  defaultLang: 'en',
 }

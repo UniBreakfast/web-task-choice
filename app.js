@@ -1,3 +1,4 @@
+import './js/ub-smarter.js'
 import { loadStored } from './js/storage.js'
 import { prepUI } from './js/ui.js'
 import { loadData } from './js/data-loader.js'

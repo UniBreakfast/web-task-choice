@@ -7,20 +7,24 @@
 
   <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="components/tabs/tabs.css">
   <link rel="stylesheet" href="style.css">
 
-  <!-- <script src="script.js" defer></script> -->
+  <script src="use-components.js"></script>
   <script src="app.js" type="module"></script>
+  <!-- <script src="tabs.html"></script> -->
 
   <title>Web Task Choice</title>
+
+  <use-components hidden>
+    <iframe id="generic-component" src="components/generic/generic.html"></iframe>
+    <iframe id="main-tabs" src="components/tabs/tabs.html"></iframe>
+  </use-components>
 </head>
 
 <body id="body">
-  <div class="tab-manager">
-    <label>
-      
-    </label>
-  </div>
+  <main-tabs></main-tabs>
+  <generic-component></generic-component>
 </body>
 
 </html>

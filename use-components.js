@@ -1,3 +1,5 @@
+const components = {}
+
 class UseComponents extends HTMLElement {
   connectedCallback() {
     if (this.parentElement != document.head) {
@@ -13,22 +15,18 @@ class UseComponents extends HTMLElement {
 
 customElements.define("use-components", UseComponents)
 
+document.addEventListener('DOMContentLoaded', placeComponents)
+
 function handleComponentsLoad(htmlImport) {
-  console.log(htmlImport.children.length);
   return Array.prototype.map.call(
     htmlImport.children,
     iframe => new Promise((resolve, reject) => {
       iframe.addEventListener('load', async () => {
-        const placeholders = document.getElementsByTagName(iframe.id)
-        const componentParts = [...iframe.contentDocument.body.children]
-        
-        placeholders[0].replaceWith(...componentParts)
+        components[iframe.innerText] = [...iframe.contentDocument.body.children]
 
-        while (placeholders.length) {
-          placeholders[0].replaceWith(...componentParts.map(part => part.cloneNode(true)))
-        }
+        placeComponents()
 
-        iframe.removeAttribute('id')
+        iframe.innerText = ''
         iframe.contentDocument.documentElement.remove()
 
         resolve()
@@ -37,4 +35,15 @@ function handleComponentsLoad(htmlImport) {
       iframe.onerror = reject
     })
   )
+}
+
+function placeComponents() {
+  const names = Object.keys(components)
+  const placeholders = names.flatMap(name => [...document.getElementsByTagName(name)])
+
+  for (const ph of placeholders) {
+    ph.replaceWith(...components[ph.localName].map(part => part.cloneNode(true)))
+  }
+
+  if (placeholders.length) placeComponents()
 }

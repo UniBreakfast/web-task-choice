@@ -1,4 +1,5 @@
 const components = {}
+const hungryRE = /\{(\w+)\}/g
 
 class UseComponents extends HTMLElement {
   connectedCallback() {
@@ -22,7 +23,7 @@ function handleComponentsLoad(htmlImport) {
     htmlImport.children,
     iframe => new Promise((resolve, reject) => {
       iframe.addEventListener('load', async () => {
-        components[iframe.innerText] = [...iframe.contentDocument.body.children]
+        components[iframe.innerText] = [...iframe.contentDocument.body.childNodes]
 
         placeComponents()
 
@@ -42,8 +43,43 @@ function placeComponents() {
   const placeholders = names.flatMap(name => [...document.getElementsByTagName(name)])
 
   for (const ph of placeholders) {
-    ph.replaceWith(...components[ph.localName].map(part => part.cloneNode(true)))
+    const nodes = components[ph.localName].map(part => part.cloneNode(true))
+
+    ph.replaceWith(...nodes)
+
+    for (const node of getHungryNodesOf(nodes)) fill(node).with(ph.dataset)
   }
 
   if (placeholders.length) placeComponents()
+}
+
+function getHungryNodesOf(nodes) {
+  const hungryNodes = []
+  
+  nodes = nodes.flatMap(getAllNodes)
+
+  for (const node of nodes) {
+    const [...matches] = node.nodeValue?.matchAll(hungryRE) || []
+    if (matches.length) hungryNodes.push({matches, node})
+  }
+
+  return hungryNodes
+}
+
+function fill({matches, node}) {
+  return {
+    with(dataset) {
+      for (const [substr, name] of matches) {
+        node.nodeValue = node.nodeValue.replaceAll(substr, dataset[name] || '')
+      }
+    }
+  }
+}
+
+function getAllNodes(node) {
+  const nodes = [node]
+
+  for (const child of node.childNodes) nodes.push(...getAllNodes(child))
+
+  return nodes
 }
